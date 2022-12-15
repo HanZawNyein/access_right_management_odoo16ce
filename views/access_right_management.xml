@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="access_rights_management_view_tree" model="ir.ui.view">
+        <field name="name">access_rights_management_view_tree</field>
+        <field name="model">access.rights.management</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="active"/>
+                <field name="readonly"/>
+                <field name="user_ids" widget="many2many_tags"/>
+            </tree>
+        </field>
+    </record>
+    <record id="access_rights_management_view_form" model="ir.ui.view">
+        <field name="name">access_rights_management_view_form</field>
+        <field name="model">access.rights.management</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="active"/>
+                            <field name="readonly"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="hide_chatter"/>
+                        </group>
+                        <group>
+                            <field name="disable_debug_mode"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="users" string="Users">
+                            <field name="user_ids" string="Users">
+                                <tree string="Users">
+                                    <field name="name"/>
+                                    <field name="login_date"/>
+                                    <field name="company_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="hide_menu" string="Hide Menus">
+                            <field name="hide_menu_ids"/>
+                        </page>
+                        <page name="remove_action" string="Model Access">
+                            <field name="remove_action_ids">
+                                <tree editable="bottom">
+                                    <field name="model_id"/>
+                                    <field name="model_name"/>
+                                    <field name="server_action_ids" widget="many2many_tags"/>
+                                    <field name="report_action_ids" widget="many2many_tags"/>
+                                    <field name="readonly"/>
+                                    <field name="restrict_create"/>
+                                    <field name="restrict_edit"/>
+                                    <field name="restrict_delete"/>
+                                    <field name="restrict_export"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="hide_field" string="Hide Fields">
+                            <field name="hide_field_ids">
+                                <tree editable="bottom">
+                                    <field name="model_id"/>
+                                    <field name="model_name"/>
+                                    <field name="field_id" widget="many2many_tags"
+                                           domain="[('model_id','=',model_id)]"/>
+                                    <field name="invisible" width="1"/>
+                                    <field name="readonly" width="1"/>
+                                    <field name="required" widget="1"/>
+                                    <field name="external_link" width="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="hide_view_nodes_ids" string="Button/Tab Access">
+                            <field name="hide_view_nodes_ids">
+                                <tree editable="bottom">
+                                    <field name="model_id" options="{'no_create': True}"/>
+                                    <field name="model_name"/>
+                                    <field name="btn_store_model_nodes_ids" widget="many2many_tags"
+                                           domain="[('model_id','=',model_id),('node_option','=','button')]"
+                                           options="{'no_create': True}"/>
+                                    <field name="page_store_model_nodes_ids" widget="many2many_tags"
+                                           domain="[('model_id','=',model_id),('node_option','=','page')]"
+                                           options="{'no_create': True}"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="access_rights_management_action" model="ir.actions.act_window">
+        <field name="name">Access Rights Management</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">access.rights.management</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="Access Rights" id="access_rights_management_root"
+              web_icon="access_right_management,static/description/icon.png"
+              groups="access_right_management.access_right_control_group"/>
+    <menuitem id="access_rights_management_categ" name="Access Rights Management"
+              parent="access_rights_management_root"
+              groups="access_right_management.access_right_control_group"
+              action="access_rights_management_action"/>
+</odoo>

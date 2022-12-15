@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Inherit Form View to Modify it -->
+    <record id="res_users_inherit_from" model="ir.ui.view">
+        <field name="name">res.users.inherit.form</field>
+        <field name="model">res.users</field>
+<!--        <field name="groups_id" eval="[(4, (ref('access_right_management.access_right_control_group'),))]"/>-->
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//notebook" position="inside">
+                <page string="Access Rights Management">
+                    <field name='access_rights_management_ids'>
+                        <tree>
+                            <field name="name"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
